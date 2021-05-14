@@ -33,9 +33,14 @@ saveButton.addEventListener("click", function() {
     // Filter out entries without a command name, this lets users delete unwanted commands
     saveArray = saveArray.filter(arr => arr[0] !== "");
     // localStorage.setItem("commands", JSON.stringify(saveArray));
-    localforage.setItem("commands", JSON.stringify(saveArray));
-
-    location.reload(); // Show the user the updated values
+    localforage.setItem("commands", JSON.stringify(saveArray))
+        .then(value => {
+            console.log("Successfully wrote settings array: "+value);
+            location.reload(); // Show the user the updated values
+        },
+        error => {
+            console.log("Failed to write settings array, error: "+error);
+        });
 });
 
 addRowButton.addEventListener("click", function() {
@@ -63,6 +68,7 @@ function addRow(command, option, value) {
     option2.value = "script";
     option2.text = "Run Script";
     if (option === option2.value) option2.selected = true;
+    option2.disabled = true; // Disable for now, since no script functionality is possible in service workers
 
     dropdown.appendChild(option1);
     dropdown.appendChild(option2);
