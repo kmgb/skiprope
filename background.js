@@ -8,12 +8,16 @@ chrome.omnibox.onInputEntered.addListener((text) => {
         if (storedCommands) {
             var commands = JSON.parse(storedCommands);
 
-            // for (cmd in commands) {
             for (var i = 0; i < commands.length; i++) {
                 var cmd = commands[i];
 
                 if (cmd[0] === text) {
-                    goToURL(cmd[2]);
+                    if (cmd[1] === "url") {
+                        goToURL(cmd[2]);
+                    }
+                    else if (cmd[1] === "script") {
+                        // Ignore for now, maybe functionality can be added for this later
+                    }
                 }
             }
         }
@@ -22,14 +26,9 @@ chrome.omnibox.onInputEntered.addListener((text) => {
 
 function goToURL(url) {
     // Get the current tab (the one the address bar was submitted from) and update its URL to the command selection
-    chrome.tabs.query({
-        currentWindow: true,
-        active: true
-    }, function (tabs) {
+    chrome.tabs.query({currentWindow: true, active: true}, function (tabs) {
         if (tabs && tabs[0]) {
-            chrome.tabs.update(tabs[0].id, {
-                'url': url
-            });
+            chrome.tabs.update(tabs[0].id, {'url': url});
         }
     });
 }
