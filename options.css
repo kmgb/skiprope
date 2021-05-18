@@ -1,6 +1,7 @@
 body {
-    background: #242424;
-    color: #EEE;
+    background: #343434;
+    color: #EAEAEA;
+    font-size: 16px;
 }
 
 #row-container {
@@ -12,4 +13,8 @@ body {
 .inline-form {
     display: grid;
     grid-template-columns: auto min-content 2fr;
+}
+
+a {
+    color: #6699cc;
 }
